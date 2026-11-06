@@ -1,0 +1,225 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- ========== 渐变画刷（想换配色改这里） ========== -->
+    <LinearGradientBrush x:Key="Glow.Brush.Violet" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#8E54FF" Offset="0"/>
+        <GradientStop Color="#4C7DFF" Offset="0.55"/>
+        <GradientStop Color="#16D9FF" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Glow.Brush.Sunset" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FF3CAC" Offset="0"/>
+        <GradientStop Color="#FF6A5B" Offset="0.55"/>
+        <GradientStop Color="#FFB22E" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Glow.Brush.Aurora" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#00D98B" Offset="0"/>
+        <GradientStop Color="#00BFD8" Offset="0.55"/>
+        <GradientStop Color="#3B82F6" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- ========== 键盘焦点框 ========== -->
+    <Style x:Key="GlowButtonFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Margin="-3" CornerRadius="23"
+                            BorderBrush="#887B61FF" BorderThickness="2"
+                            SnapsToDevicePixels="True"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ========== 炫彩发光按钮（默认紫蓝青） ========== -->
+    <Style x:Key="GlowButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Glow.Brush.Violet}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Padding" Value="28,0"/>
+        <Setter Property="MinWidth" Value="110"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Margin" Value="14"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource GlowButtonFocusVisual}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <!-- 外层：悬停放大 -->
+                    <Grid x:Name="hoverRoot" RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                        </Grid.RenderTransform>
+
+                        <!-- 内层：按下缩小 -->
+                        <Grid x:Name="pressRoot" RenderTransformOrigin="0.5,0.5">
+                            <Grid.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            </Grid.RenderTransform>
+
+                            <!-- 底部发光层：同色渐变 + 模糊 -->
+                            <Border x:Name="glow"
+                                    Margin="6,10,6,-8"
+                                    CornerRadius="20"
+                                    Background="{TemplateBinding Background}"
+                                    Opacity="0.5"
+                                    IsHitTestVisible="False">
+                                <Border.Effect>
+                                    <BlurEffect Radius="18" RenderingBias="Performance"/>
+                                </Border.Effect>
+                            </Border>
+
+                            <!-- 按钮主体 -->
+                            <Border x:Name="body"
+                                    CornerRadius="20"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="#66FFFFFF"
+                                    BorderThickness="1"/>
+
+                            <!-- 玻璃高光 -->
+                            <Border x:Name="gloss"
+                                    Margin="1"
+                                    CornerRadius="19"
+                                    IsHitTestVisible="False">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#55FFFFFF" Offset="0"/>
+                                        <GradientStop Color="#00FFFFFF" Offset="0.6"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+
+                            <!-- 扫光层：悬停时从左扫到右 -->
+                            <Border x:Name="shine"
+                                    Margin="1"
+                                    CornerRadius="19"
+                                    IsHitTestVisible="False">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <LinearGradientBrush.RelativeTransform>
+                                            <TranslateTransform X="-1.5"/>
+                                        </LinearGradientBrush.RelativeTransform>
+                                        <GradientStop Color="#00FFFFFF" Offset="0"/>
+                                        <GradientStop Color="#00FFFFFF" Offset="0.35"/>
+                                        <GradientStop Color="#99FFFFFF" Offset="0.5"/>
+                                        <GradientStop Color="#00FFFFFF" Offset="0.65"/>
+                                        <GradientStop Color="#00FFFFFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+
+                            <!-- 文字 -->
+                            <ContentPresenter x:Name="contentHost"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              RecognizesAccessKey="True">
+                                <ContentPresenter.Effect>
+                                    <DropShadowEffect Color="Black" Opacity="0.25"
+                                                      BlurRadius="4" ShadowDepth="1"/>
+                                </ContentPresenter.Effect>
+                            </ContentPresenter>
+                        </Grid>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!-- 悬停（仅启用状态） -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsEnabled" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="hoverRoot"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         To="1.06" Duration="0:0:0.18"/>
+                                        <DoubleAnimation Storyboard.TargetName="hoverRoot"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         To="1.06" Duration="0:0:0.18"/>
+                                        <DoubleAnimation Storyboard.TargetName="glow"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0.95" Duration="0:0:0.25"/>
+                                        <DoubleAnimation Storyboard.TargetName="shine"
+                                                         Storyboard.TargetProperty="(Border.Background).(Brush.RelativeTransform).(TranslateTransform.X)"
+                                                         From="-1.5" To="1.5" Duration="0:0:0.8"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="hoverRoot"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="hoverRoot"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         To="1" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="glow"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0.5" Duration="0:0:0.25"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+
+                        <!-- 按下 -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="pressRoot"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         To="0.95" Duration="0:0:0.08"/>
+                                        <DoubleAnimation Storyboard.TargetName="pressRoot"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         To="0.95" Duration="0:0:0.08"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="pressRoot"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         To="1" Duration="0:0:0.12"/>
+                                        <DoubleAnimation Storyboard.TargetName="pressRoot"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         To="1" Duration="0:0:0.12"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <!-- 禁用 -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="body" Property="Background" Value="#E5E7EB"/>
+                            <Setter TargetName="body" Property="BorderBrush" Value="#D1D5DB"/>
+                            <Setter TargetName="glow" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="gloss" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="shine" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="contentHost" Property="Effect" Value="{x:Null}"/>
+                            <Setter Property="Foreground" Value="#9CA3AF"/>
+                            <Setter Property="Cursor" Value="Arrow"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ========== 配色变体 ========== -->
+    <Style x:Key="GlowButtonSunsetStyle" TargetType="Button" BasedOn="{StaticResource GlowButtonStyle}">
+        <Setter Property="Background" Value="{StaticResource Glow.Brush.Sunset}"/>
+    </Style>
+
+    <Style x:Key="GlowButtonAuroraStyle" TargetType="Button" BasedOn="{StaticResource GlowButtonStyle}">
+        <Setter Property="Background" Value="{StaticResource Glow.Brush.Aurora}"/>
+    </Style>
+</ResourceDictionary>

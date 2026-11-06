@@ -1,0 +1,65 @@
+﻿<Window x:Class="PrismBaseObj.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PrismBaseObj"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush ColorInterpolationMode="ScRgbLinearInterpolation">
+                <GradientStop Color="LightBlue" Offset="0"/>
+                <GradientStop Color="Violet" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+            <TextBlock > 不带参数的命令绑定</TextBlock>
+        <TextBlock  Width="100" Height="100"  Background="Green"  Text="{Binding Title}">
+              
+        </TextBlock>
+            <Button Content="打开新窗口"    Click="Button_Click" Height="50" Width="100" Style="{StaticResource SecondaryButtonStyle}"  ></Button>
+
+            <Button Command="{Binding  EditCommand}"  Content="绑定命令了"   Height="50" Width="100" Style="{StaticResource LiquidGlassButton}"/>
+            <Button Content="{Binding Title}"  Height="30" Width="100" Style="{StaticResource   ModernSecondaryButton}"/>
+            <Button   Height="30" Width="100" Style="{StaticResource  SecondaryButtonStyle}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1">
+            <TextBlock > 带参数的命令绑定</TextBlock>
+            <TextBlock Text="{Binding Name}" Height="30" ></TextBlock>
+                <Button   Height="30" Width="100" Margin="0 10 0 10" Style="{StaticResource   GlowButtonAuroraStyle }"/>
+            <Button   Height="30" Width="130" Margin="0 10 0 10" Command="{Binding showMessageCommand}" CommandParameter="生活的每一天" Style="{StaticResource    GlowButtonStyle  }" Content="绑定命令"/>
+            <TextBlock> 显示绑定名字</TextBlock>
+            <TextBox Text="{Binding Name}" Height="30"></TextBox>
+                <Button   Height="30"  Click="Button_Click_1" Width="100" Margin="0 10 0 10" Style="{StaticResource    GlowButtonSunsetStyle  }"/>
+           
+        </StackPanel>
+
+        <StackPanel Grid.Column="2">
+            <TextBlock >多个参数的命令绑定</TextBlock>
+            <TextBlock>点击显示姓名</TextBlock>
+            <Button Style="{StaticResource LiquidGlassTriangleButton}"  Command="{Binding UserInfoCommand}" CommandParameter="{Binding userInfo}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Width="80"> idCard</TextBlock>
+                <TextBox Width="100" Text="{Binding userInfo.IdCard}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Width="80">UserName </TextBlock>
+                <TextBox Width="100" Text="{Binding userInfo.UserName}"></TextBox>
+            </StackPanel>
+        </StackPanel>
+        
+        
+    </Grid>
+</Window>
