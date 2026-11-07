@@ -2,6 +2,8 @@
 using System.Data;
 using System.Windows;
 using PrismBaseObj.Views;
+using PrismBaseObj.ViewModels;
+using PrismBaseObj.Model;
 
 namespace PrismBaseObj
 {
@@ -23,8 +25,8 @@ namespace PrismBaseObj
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // throw new NotImplementedException();
-            containerRegistry.RegisterDialog < DialogUC> ();
+            containerRegistry.RegisterDialog<DialogUC, DialogUCViewModel>();
+            containerRegistry.RegisterDialog<newPageshow>();
         }
     }
 

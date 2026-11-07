@@ -1,3 +1,4 @@
+using Prism.Dialogs;
 using PrismBaseObj.Model;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Windows;
 
 namespace PrismBaseObj
 {
-    class MainWindowViewModel : BindableBase
+    class MainWindowViewModel : BindableBase 
     {
 
 
@@ -54,9 +55,13 @@ namespace PrismBaseObj
         public DelegateCommand<string> showMessageCommand { get; set; }  //执行这个命令的时候传入的参数类型<string>
 
 
+        public DelegateCommand showPageCommand { get; set; } 
+
         public DelegateCommand<UserInfo> UserInfoCommand { get; set; }  //执行这个命令的时候传入的参数类型<UserInfo>
 
-        public MainWindowViewModel()
+
+        public DelegateCommand ShowDialogCommand { get; set; }
+        public MainWindowViewModel(IDialogService dialogService)
         {
             EditCommand = new DelegateCommand(EditName);
 
@@ -68,6 +73,29 @@ namespace PrismBaseObj
             OpenCmm=new DelegateCommand(() => { 
                     MessageBox.Show("打开窗体");
             });
+
+            DialogParameters keyValuePairs = new DialogParameters();
+            keyValuePairs.Add("UserName", "天天好心情");
+           keyValuePairs.Add("Userinfo", userInfo);
+
+            ShowDialogCommand = new DelegateCommand(
+              () =>
+              dialogService.Show("DialogUC",keyValuePairs,resultCallback));
+
+            showPageCommand=new DelegateCommand(() =>
+            {
+                dialogService.Show("newPageshow");
+            });
+
+
+        }
+
+
+        //处理弹窗返回的结果
+        private void resultCallback(IDialogResult dialogResult)
+        {
+           dialogResult.Parameters.TryGetValue("resMsg", out string resMsg);
+            MessageBox.Show(resMsg);
         }
 
         private void showUserInfo(UserInfo info)

@@ -1,0 +1,24 @@
+﻿<Window x:Class="studyPrism2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:studyPrism2"
+        mc:Ignorable="d"
+        xmlns:prism="http://prismlibrary.com/"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Height="450" Width="800" Background="AliceBlue">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <StackPanel>
+                <Button Style="{StaticResource GlowButtonAuroraStyle}" Height="40" Content="打开窗口2" Command="{Binding OpenPage1Cmd}"></Button>
+                <Button Style="{StaticResource  GlowButtonStyle}" Height="40" Content="打开窗口1" Command="{Binding OpenPage2Cmd}" ></Button>
+                <Button Style="{StaticResource  GlowButtonStyle}" Height="40" Content="发布命令" Command="{Binding PublicCmd }" ></Button>
+                <Button Style="{StaticResource  GlowButtonStyle}" Height="40" Content="发布带参数的命令" Command="{Binding PublicParaCmd }" ></Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

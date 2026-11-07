@@ -1,4 +1,5 @@
-﻿using PrismBaseObj.Views;
+﻿using Prism.Commands;
+using PrismBaseObj.Views;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,10 +21,18 @@ namespace PrismBaseObj
     /// </summary>
     public partial class MainWindow : Window
     {
+     
+
         public MainWindow()
         {
             InitializeComponent();
+          
+           
+
         }
+
+
+
 
         private BtnStyleShowFrm btnStyleShowFrm;
         private void Button_Click(object sender, RoutedEventArgs e)

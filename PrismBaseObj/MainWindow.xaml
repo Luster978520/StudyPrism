@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PrismBaseObj"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="主窗体" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -59,7 +59,14 @@
                 <TextBox Width="100" Text="{Binding userInfo.UserName}"></TextBox>
             </StackPanel>
         </StackPanel>
-        
-        
+
+        <StackPanel Grid.Column="3">
+            <TextBlock > 弹窗命令绑定</TextBlock>
+            <Button Content="弹窗" Command="{Binding ShowDialogCommand}"  Height="30" Width="100" Style="{StaticResource   GlowButtonAuroraStyle }"/>
+
+            <TextBlock >绑定pageshow命名</TextBlock>
+            <Button Content="Pageshow命令" Command="{Binding showPageCommand}"  Height="30" Width="100" Style="{StaticResource   GlowButtonAuroraStyle }"/>
+        </StackPanel>
     </Grid>
+    
 </Window>

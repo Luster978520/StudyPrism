@@ -18,11 +18,13 @@ namespace PrismBaseObj.Views
     /// <summary>
     /// DialogUC.xaml 的交互逻辑
     /// </summary>
-    public partial class DialogUC : UserControl
+    public partial class DialogUC : UserControl 
     {
         public DialogUC()
         {
             InitializeComponent();
         }
+
+      
     }
 }
